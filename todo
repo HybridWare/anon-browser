@@ -1,0 +1,13 @@
+https://github.com/styromaniac/browzero/blob/main/browzero
+
+[
+    ("ZeroNet", r"(http|ws)://(127\.0\.0\.1|localhost):43110/.*"),
+    ("Yggdrasil", r"http://\[.*:.*:.*:.*:.*:.*:.*:.*\].*"),
+    ("IPFS", r"http://.*\.(ipfs|ipns)\.localhost:8080/.*"),
+    ("Tor", r"https?://.*\.onion.*"),
+    ("Lokinet", r"https?://.*\.loki/.*"),
+    ("Freenet", r"http://(127\.0\.0\.1|localhost):8888/.*"),
+    ("Tahoe-LAFS", r"http://localhost:3456/uri/.*"),
+    ("GNUnet", r"http://localhost:7776/.*"),
+    ("I2P", r"http://.*\.i2p/.*")
+]
