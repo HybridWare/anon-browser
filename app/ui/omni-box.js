@@ -58,9 +58,7 @@ class OmniBox extends HTMLElement {
       let url = rawURL
 
       if (!isURL(rawURL)) {
-        if (looksLikeIPFS(rawURL)) {
-          url = makeIPFS(rawURL)
-        } else if (isBareLocalhost(rawURL)) {
+        if (isBareLocalhost(rawURL)) {
           url = makeHttp(rawURL)
         } else if (looksLikeDomain(rawURL)) {
           url = makeHttps(rawURL)
@@ -190,9 +188,6 @@ class OmniBox extends HTMLElement {
 
     if (isURL(query)) {
       finalItems.push(this.makeNavItem(query, `Go to ${query}`))
-    } else if (looksLikeIPFS(query)) {
-      const url = makeIPFS(query)
-      finalItems.push(this.makeNavItem(url, `Go to ${url}`))
     } else if (isBareLocalhost(query)) {
       finalItems.push(this.makeNavItem(makeHttp(query), `Go to http://${query}`))
     } else if (looksLikeDomain(query)) {

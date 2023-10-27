@@ -174,7 +174,7 @@ async function onready () {
 
   // TODO: Better error handling when the extension doesn't exist?
   history.setGetBackgroundPage(() => {
-    return extensions.getBackgroundPageByName('anon-history')
+    return extensions.getBackgroundPageByName('hybrid-history')
   })
 
   console.log('Opening saved windows')
