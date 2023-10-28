@@ -58,13 +58,7 @@ class OmniBox extends HTMLElement {
       let url = rawURL
 
       if (!isURL(rawURL)) {
-        if (isBareLocalhost(rawURL)) {
-          url = makeHttp(rawURL)
-        } else if (looksLikeDomain(rawURL)) {
-          url = makeHttps(rawURL)
-        } else {
-          url = makeDuckDuckGo(rawURL)
-        }
+        url = `anon://${rawURL}`
       }
 
       this.clearOptions()
@@ -188,14 +182,10 @@ class OmniBox extends HTMLElement {
 
     if (isURL(query)) {
       finalItems.push(this.makeNavItem(query, `Go to ${query}`))
-    } else if (isBareLocalhost(query)) {
-      finalItems.push(this.makeNavItem(makeHttp(query), `Go to http://${query}`))
-    } else if (looksLikeDomain(query)) {
-      finalItems.push(this.makeNavItem(makeHttps(query), `Go to https://${query}`))
     } else {
       finalItems.push(
         this.makeNavItem(
-          makeDuckDuckGo(query),
+          `anon://${query}`,
           `Search for "${query}" on DuckDuckGo`
         )
       )
@@ -288,23 +278,15 @@ class OmniBox extends HTMLElement {
   }
 }
 
-function makeHttp (query) {
-  return `http://${query}`
-}
-
-function makeHttps (query) {
-  return `https://${query}`
-}
-
-function makeDuckDuckGo (query) {
-  return `https://duckduckgo.com/?q=${encodeURIComponent(query)}`
-}
-
 function isURL (string) {
   try {
     // localhost: is a valid url apparently!
-    if (isBareLocalhost(string)) return false
-    return !!new URL(string)
+    if (isBareLocalhost(string)){
+      return false
+    } else {
+      const test = new URL(string)
+      return test.protocol !== 'http:' && test.protocol !== 'https:' && !!test
+    }
   } catch {
     return false
   }

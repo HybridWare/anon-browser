@@ -34,6 +34,18 @@ export function setAsDefaultProtocolClient () {
 
 export async function setupProtocols (session) {
   const { protocol: sessionProtocol } = session
+  sessionProtocol.interceptHttpProtocol('http', (request, callback) => {
+    callback(new Response(null, {status: 500}))
+  })
+  globalProtocol.interceptHttpProtocol('http', (request, callback) => {
+    callback(new Response(null, {status: 500}))
+  })
+  sessionProtocol.interceptHttpProtocol('https', (request, callback) => {
+    callback(new Response(null, {status: 500}))
+  })
+  globalProtocol.interceptHttpProtocol('https', (request, callback) => {
+    callback(new Response(null, {status: 500}))
+  })
 
   const {default: createBrowserHandler} = await import('./browser-protocol.js')
   const browserProtocolHandler = await createBrowserHandler()
