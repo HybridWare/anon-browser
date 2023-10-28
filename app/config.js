@@ -52,5 +52,9 @@ export default RC('anon', {
 
   lok: {
     status: true
-  }
+  },
+
+  host: [
+    // {scheme: 'free', port: 8888}
+  ]
 })

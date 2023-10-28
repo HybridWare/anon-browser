@@ -5,7 +5,8 @@ import Config from '../config.js'
 const {
   tor,
   iip,
-  lok
+  lok,
+  host
 } = Config
 
 const onCloseHandlers = []
@@ -28,6 +29,11 @@ export function setAsDefaultProtocolClient () {
   if(lok.status){
     app.setAsDefaultProtocolClient('lok')
     app.setAsDefaultProtocolClient('loks')
+  }
+  if(host.length){
+    for(const test of host){
+      app.setAsDefaultProtocolClient(test.scheme)
+    }
   }
   console.log('registered default handlers')
 }
@@ -92,4 +98,15 @@ export async function setupProtocols (session) {
     console.log('registered lokinet protocol')
   }
   // loki
+
+  // host
+  if(host.length){
+    const {default: createHostHandler} = await import('./host-protocol.js')
+    for(const test of host){
+      let hostHandler = await createHostHandler({scheme: test.scheme, port: test.port}, session)
+      sessionProtocol.registerStreamProtocol(test.scheme, hostHandler)
+      globalProtocol.registerStreamProtocol(test.scheme, hostHandler)
+    }
+  }
+  // host
 }
